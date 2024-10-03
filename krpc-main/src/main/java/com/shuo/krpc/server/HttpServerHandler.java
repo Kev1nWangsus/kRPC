@@ -5,7 +5,6 @@ import com.shuo.krpc.model.RpcResponse;
 import com.shuo.krpc.registry.LocalRegistry;
 import com.shuo.krpc.serializer.JdkSerializer;
 import com.shuo.krpc.serializer.Serializer;
-import io.vertx.core.Expectation;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
@@ -14,6 +13,11 @@ import io.vertx.core.http.HttpServerResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
+/**
+ * HTTPServer interface handler
+ *
+ * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
+ */
 public class HttpServerHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest request) {

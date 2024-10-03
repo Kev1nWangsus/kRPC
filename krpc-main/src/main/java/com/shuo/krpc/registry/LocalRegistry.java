@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Local registry
+ *
  * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
  */
 public class LocalRegistry {

@@ -4,6 +4,7 @@ import java.lang.reflect.Proxy;
 
 /**
  * Service Proxy Factory (for service proxy creation)
+ *
  * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
  */
 public class ServiceProxyFactory {

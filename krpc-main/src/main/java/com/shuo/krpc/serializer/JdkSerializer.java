@@ -2,6 +2,11 @@ package com.shuo.krpc.serializer;
 
 import java.io.*;
 
+/**
+ * Serializer JDK implementation
+ *
+ * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
+ */
 public class JdkSerializer implements Serializer {
 
     /**

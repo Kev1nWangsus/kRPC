@@ -8,32 +8,33 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * RPC Request
+ * RPC Response
+ *
  * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RpcRequest implements Serializable {
+public class RpcResponse implements Serializable {
 
     /**
-     * request RPC service name
+     * response data
      */
-    private String serviceName;
+    private Object data;
 
     /**
-     * request method name
+     * response data type
      */
-    private String methodName;
+    private Class<?> dataType;
 
     /**
-     * request parameter types
+     * response message
      */
-    private Class<?>[] parameterTypes;
+    private String message;
 
     /**
-     * request arguments
+     * exception
      */
-    private Object[] args;
+    private Exception exception;
 }
