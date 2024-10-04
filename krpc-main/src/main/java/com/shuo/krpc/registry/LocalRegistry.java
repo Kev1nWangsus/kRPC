@@ -9,13 +9,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
  */
 public class LocalRegistry {
+
     /**
-     * registration information storage
+     * Registration information storage
      */
     private static final Map<String, Class<?>> registrationMap = new ConcurrentHashMap<>();
 
     /**
-     * register service
+     * Register service
      *
      * @param serviceName
      * @param implClass
@@ -25,7 +26,7 @@ public class LocalRegistry {
     }
 
     /**
-     * access service based on name
+     * Access service based on name
      *
      * @param serviceName
      * @return
@@ -35,7 +36,7 @@ public class LocalRegistry {
     }
 
     /**
-     * remove service based on name
+     * Remove service based on name
      *
      * @param serviceName
      */
