@@ -10,7 +10,7 @@ import java.lang.reflect.Proxy;
 public class ServiceProxyFactory {
 
     /**
-     * get proxy based on service class
+     * Get proxy based on service class
      *
      * @param serviceClass
      * @param <T>
@@ -21,5 +21,18 @@ public class ServiceProxyFactory {
                 serviceClass.getClassLoader(),
                 new Class[]{serviceClass},
                 new ServiceProxy());
+    }
+
+    /**
+     * Get mock proxy based on service class
+     * @param serviceClass
+     * @return
+     * @param <T>
+     */
+    public static <T> T getMockProxy(Class<T> serviceClass) {
+        return (T) Proxy.newProxyInstance(
+                serviceClass.getClassLoader(),
+                new Class[]{serviceClass},
+                new MockServiceProxy());
     }
 }

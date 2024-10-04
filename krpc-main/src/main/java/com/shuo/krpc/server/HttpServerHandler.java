@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 public class HttpServerHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest request) {
-        // assign serializer
+        // Assign serializer
         final Serializer serializer = new JdkSerializer();
 
         System.out.println("Received request: " + request.method() + " " + request.uri());
@@ -36,10 +36,10 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
                 e.printStackTrace();
             }
 
-            // construct response object
+            // Construct response object
             RpcResponse rpcResponse = new RpcResponse();
 
-            // immediately return if request is null
+            // Immediately return if request is null
             if (rpcRequest == null) {
                 rpcResponse.setMessage("rpc request is null");
                 doResponse(request, rpcResponse, serializer);
@@ -47,7 +47,7 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
             }
 
             try {
-                // access service implementation using reflection
+                // Access service implementation using reflection
                 Class<?> implClass = LocalRegistry.get(rpcRequest.getServiceName());
                 Method method = implClass.getMethod(rpcRequest.getMethodName(),
                         rpcRequest.getParameterTypes());

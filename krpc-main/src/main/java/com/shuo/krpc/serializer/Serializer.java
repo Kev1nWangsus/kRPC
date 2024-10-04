@@ -10,7 +10,7 @@ import java.io.IOException;
 public interface Serializer {
 
     /**
-     * serialization
+     * Serialization function
      *
      * @param object
      * @param <T>
@@ -20,7 +20,7 @@ public interface Serializer {
     <T> byte[] serialize(T object) throws IOException;
 
     /**
-     * deserialization
+     * Deserialization function
      *
      * @param bytes
      * @param type

@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 public class ServiceProxy implements InvocationHandler {
 
     /**
-     * invoke proxy
+     * Invoke proxy
      *
      * @return
      * @throws Throwable

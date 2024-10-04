@@ -8,7 +8,7 @@ package com.shuo.krpc.server;
 public interface HttpServer {
 
     /**
-     * start the server
+     * Start the server
      *
      * @param port
      */

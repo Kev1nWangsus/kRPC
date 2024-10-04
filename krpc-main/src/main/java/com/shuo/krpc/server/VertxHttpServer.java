@@ -10,16 +10,16 @@ import io.vertx.core.Vertx;
 public class VertxHttpServer implements HttpServer {
 
     /**
-     * start the server
+     * Start the server
      *
      * @param port
      */
     @Override
     public void doStart(int port) {
-        // create vertx instance
+        // Create vertx instance
         Vertx vertx = Vertx.vertx();
 
-        // create http server
+        // Create http server
         io.vertx.core.http.HttpServer server = vertx.createHttpServer();
 
         server.requestHandler(new HttpServerHandler());

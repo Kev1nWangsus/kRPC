@@ -10,7 +10,7 @@ import java.io.*;
 public class JdkSerializer implements Serializer {
 
     /**
-     * serialization implementation based on JDK
+     * Serialization implementation based on JDK
      *
      * @param object
      * @param <T>
@@ -27,7 +27,7 @@ public class JdkSerializer implements Serializer {
     }
 
     /**
-     * deserialization implementation based on JDK
+     * Deserialization implementation based on JDK
      *
      * @param bytes
      * @param type
