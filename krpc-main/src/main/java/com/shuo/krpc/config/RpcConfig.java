@@ -30,4 +30,8 @@ public class RpcConfig {
      */
     private Integer serverPort = 8080;
 
+    /**
+     * Developer mock mode
+     */
+    private boolean mock = false;
 }
