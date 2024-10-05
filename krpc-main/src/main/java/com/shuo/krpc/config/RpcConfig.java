@@ -1,5 +1,6 @@
 package com.shuo.krpc.config;
 
+import com.shuo.krpc.serializer.SerializerKeys;
 import lombok.Data;
 
 /**
@@ -30,4 +31,8 @@ public class RpcConfig {
      */
     private Integer serverPort = 8080;
 
+    /**
+     * Serializer
+     */
+    private String serializer = SerializerKeys.JDK;
 }
