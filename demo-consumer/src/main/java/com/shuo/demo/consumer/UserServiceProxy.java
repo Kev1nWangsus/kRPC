@@ -4,10 +4,11 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.shuo.demo.common.model.User;
 import com.shuo.demo.common.service.UserService;
+import com.shuo.krpc.RpcApplication;
 import com.shuo.krpc.model.RpcRequest;
 import com.shuo.krpc.model.RpcResponse;
-import com.shuo.krpc.serializer.JdkSerializer;
 import com.shuo.krpc.serializer.Serializer;
+import com.shuo.krpc.serializer.SerializerFactory;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ import java.io.IOException;
 public class UserServiceProxy implements UserService {
 
     public User getUser(User user) {
-        Serializer serializer = new JdkSerializer();
+        Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         RpcRequest rpcRequest = RpcRequest.builder()
                 .serviceName(UserService.class.getName())

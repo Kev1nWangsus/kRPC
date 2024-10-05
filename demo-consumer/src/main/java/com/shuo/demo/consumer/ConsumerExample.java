@@ -11,7 +11,4 @@ public class ConsumerExample {
         RpcConfig rpcConfig = ConfigUtils.loadConfig(RpcConfig.class, "rpc");
         System.out.println(rpcConfig);
     }
-
-
-
 }
