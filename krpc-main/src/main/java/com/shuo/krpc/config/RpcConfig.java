@@ -35,4 +35,9 @@ public class RpcConfig {
      * Serializer
      */
     private String serializer = SerializerKeys.JDK;
+
+    /**
+     * Registry config
+     */
+    private RegistryConfig registryConfig = new RegistryConfig();
 }
