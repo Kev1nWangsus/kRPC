@@ -1,5 +1,6 @@
 package com.shuo.krpc.config;
 
+import com.shuo.krpc.registry.RegistryKeys;
 import lombok.Data;
 
 /**
@@ -12,7 +13,7 @@ public class RegistryConfig {
     /**
      * Registry type
      */
-    private String registry = "etcd";
+    private String registry = RegistryKeys.ETCD;
 
     /**
      * Registry address
