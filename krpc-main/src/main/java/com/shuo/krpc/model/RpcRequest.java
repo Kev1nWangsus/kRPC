@@ -1,5 +1,6 @@
 package com.shuo.krpc.model;
 
+import com.shuo.krpc.constant.RpcConstant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,11 @@ public class RpcRequest implements Serializable {
      * request method name
      */
     private String methodName;
+
+    /**
+     * Service version number
+     */
+    private String serviceVersion = RpcConstant.DEFAULT_SERVICE_VERSION;
 
     /**
      * request parameter types
