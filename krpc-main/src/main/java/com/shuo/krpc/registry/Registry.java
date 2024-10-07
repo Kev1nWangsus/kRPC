@@ -42,4 +42,9 @@ public interface Registry {
      * Remove current registry node
      */
     void destroy();
+
+    /**
+     * Heartbeat detection
+     */
+    void heartBeat();
 }
