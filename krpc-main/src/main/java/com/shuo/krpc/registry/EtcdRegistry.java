@@ -31,7 +31,7 @@ public class EtcdRegistry implements Registry {
     /**
      * A set of all locally registered nodes' keys (for lease renewal)
      */
-    private final Set<String> localRegisteredNodeKeySey = new HashSet<>();
+    private final Set<String> localRegisteredNodeKeySet = new HashSet<>();
 
     /**
      * Root node
@@ -66,7 +66,7 @@ public class EtcdRegistry implements Registry {
         PutOption putOption = PutOption.builder().withLeaseId(leaseId).build();
         kvClient.put(key, value, putOption).get();
 
-        localRegisteredNodeKeySey.add(registerKey);
+        localRegisteredNodeKeySet.add(registerKey);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class EtcdRegistry implements Registry {
         String unRegisterKey = ETCD_ROOT_PATH + serviceMetaInfo.getServiceNodeKey();
         kvClient.delete(ByteSequence.from(unRegisterKey, StandardCharsets.UTF_8));
 
-        localRegisteredNodeKeySey.remove(unRegisterKey);
+        localRegisteredNodeKeySet.remove(unRegisterKey);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class EtcdRegistry implements Registry {
     public void heartBeat() {
         // renew every 10 seconds
         CronUtil.schedule("*/10 * * * * * ", (Task) () -> {
-           for (String key: localRegisteredNodeKeySey) {
+           for (String key: localRegisteredNodeKeySet) {
                try {
                    List<KeyValue> keyValues = kvClient
                            .get(ByteSequence.from(key, StandardCharsets.UTF_8))
