@@ -101,6 +101,16 @@ public class EtcdRegistry implements Registry {
     @Override
     public void destroy() {
         System.out.println("Deactivate current node");
+
+        // deactivate node
+        for (String key: localRegisteredNodeKeySet) {
+            try {
+                kvClient.delete(ByteSequence.from(key, StandardCharsets.UTF_8)).get();
+            } catch (Exception e) {
+                throw new RuntimeException(key + "failed to deactivate");
+            }
+        }
+
         // release resources
         if (kvClient != null) {
             kvClient.close();
