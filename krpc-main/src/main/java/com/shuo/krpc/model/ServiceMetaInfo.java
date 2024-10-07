@@ -17,7 +17,7 @@ public class ServiceMetaInfo {
 
     private String serviceHost;
 
-    private String servicePort;
+    private Integer servicePort;
 
     /**
      * Service key getter
