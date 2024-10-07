@@ -2,10 +2,11 @@ package com.shuo.krpc.proxy;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.shuo.krpc.RpcApplication;
 import com.shuo.krpc.model.RpcRequest;
 import com.shuo.krpc.model.RpcResponse;
-import com.shuo.krpc.serializer.JdkSerializer;
 import com.shuo.krpc.serializer.Serializer;
+import com.shuo.krpc.serializer.SerializerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -27,7 +28,7 @@ public class ServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // assign serializer
-        Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         // construct request
         RpcRequest rpcRequest = RpcRequest.builder()

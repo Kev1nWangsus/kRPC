@@ -1,7 +1,10 @@
 package com.shuo.krpc;
 
+import com.shuo.krpc.config.RegistryConfig;
 import com.shuo.krpc.config.RpcConfig;
 import com.shuo.krpc.constant.RpcConstant;
+import com.shuo.krpc.registry.Registry;
+import com.shuo.krpc.registry.RegistryFactory;
 import com.shuo.krpc.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +26,12 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig) {
         rpcConfig = newRpcConfig;
         log.info("rpc init, config = {}", newRpcConfig.toString());
+
+        // registry initialization
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("registry init, config = {}", registryConfig);
     }
 
     /**
@@ -54,8 +63,4 @@ public class RpcApplication {
         }
         return rpcConfig;
     }
-
-
-
-
 }

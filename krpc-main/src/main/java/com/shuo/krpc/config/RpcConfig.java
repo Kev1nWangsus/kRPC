@@ -1,5 +1,6 @@
 package com.shuo.krpc.config;
 
+import com.shuo.krpc.serializer.SerializerKeys;
 import lombok.Data;
 
 /**
@@ -31,7 +32,12 @@ public class RpcConfig {
     private Integer serverPort = 8080;
 
     /**
-     * Developer mock mode
+     * Serializer
      */
-    private boolean mock = false;
+    private String serializer = SerializerKeys.JDK;
+
+    /**
+     * Registry config
+     */
+    private RegistryConfig registryConfig = new RegistryConfig();
 }

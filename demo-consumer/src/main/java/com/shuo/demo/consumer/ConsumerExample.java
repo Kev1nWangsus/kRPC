@@ -18,7 +18,4 @@ public class ConsumerExample {
         long test_number = userService.getNumber();
         System.out.println(test_number);
     }
-
-
-
 }
