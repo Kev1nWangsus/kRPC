@@ -46,7 +46,7 @@ public class RegistryTest {
         serviceMetaInfo.setServiceVersion("1.0");
         serviceMetaInfo.setServiceHost("localhost");
         serviceMetaInfo.setServicePort(1234);
-        registry.unRegister(serviceMetaInfo);
+        registry.unregister(serviceMetaInfo);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class RegistryTest {
     }
 
     @Test
-    public void heartBeat() throws Exception {
+    public void sendHeartBeat() throws Exception {
         register();
         // block 45 seconds
         Thread.sleep(45 * 1000L);
