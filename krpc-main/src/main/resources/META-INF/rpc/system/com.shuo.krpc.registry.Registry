@@ -1,1 +1,3 @@
 etcd=com.shuo.krpc.registry.EtcdRegistry
+zookeeper=com.shuo.krpc.registry.ZooKeeperRegistry
+redis=com.shuo.krpc.registry.RedisRegistry

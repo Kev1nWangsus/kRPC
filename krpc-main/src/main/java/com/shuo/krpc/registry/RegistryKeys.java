@@ -7,5 +7,8 @@ package com.shuo.krpc.registry;
  */
 public interface RegistryKeys {
     String ETCD = "etcd";
+
     String ZOOKEEPER = "zookeeper";
+
+    String REDIS = "redis";
 }
