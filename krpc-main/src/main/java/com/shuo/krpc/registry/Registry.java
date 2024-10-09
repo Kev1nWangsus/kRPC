@@ -47,4 +47,10 @@ public interface Registry {
      * Heartbeat detection
      */
     void heartBeat();
+
+    /**
+     * Watch a service node (consumer side)
+     * @param serviceNodeKey
+     */
+    void watch(String serviceNodeKey);
 }
