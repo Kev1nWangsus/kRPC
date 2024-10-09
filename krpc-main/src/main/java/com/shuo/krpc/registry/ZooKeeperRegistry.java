@@ -15,7 +15,6 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,7 +38,7 @@ public class ZooKeeperRegistry implements Registry {
     /**
      * A set of all locally registered nodes' keys (for lease renewal)
      */
-    private final Set<String> localRegisterNodeKeySet = new HashSet<>();
+    private final Set<String> localRegisterNodeKeySet = new ConcurrentHashSet<>();
 
     /**
      * Cached services in registry

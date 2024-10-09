@@ -17,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +38,7 @@ public class EtcdRegistry implements Registry {
     /**
      * A set of all locally registered nodes' keys (for lease renewal)
      */
-    private final Set<String> localRegisteredNodeKeySet = ConcurrentHashMap.newKeySet();
+    private final Set<String> localRegisteredNodeKeySet = new ConcurrentHashSet<>();
 
     /**
      * Cached services in registry
