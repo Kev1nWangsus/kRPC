@@ -1,5 +1,6 @@
-package com.shuo.krpc.server;
+package com.shuo.krpc.server.http;
 
+import com.shuo.krpc.server.Server;
 import io.vertx.core.Vertx;
 
 /**
@@ -7,7 +8,7 @@ import io.vertx.core.Vertx;
  *
  * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
  */
-public class VertxHttpServer implements HttpServer {
+public class VertxHttpServer implements Server {
 
     /**
      * Start the server
@@ -20,11 +21,11 @@ public class VertxHttpServer implements HttpServer {
         Vertx vertx = Vertx.vertx();
 
         // Create http server
-        io.vertx.core.http.HttpServer server = vertx.createHttpServer();
+        io.vertx.core.http.HttpServer httpServer = vertx.createHttpServer();
 
-        server.requestHandler(new HttpServerHandler());
+        httpServer.requestHandler(new HttpServerHandler());
 
-        server.listen(port, result -> {
+        httpServer.listen(port, result -> {
             if (result.succeeded()) {
                 System.out.println("Server is now listening on port " + port);
             } else {

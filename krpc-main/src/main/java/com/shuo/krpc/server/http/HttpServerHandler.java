@@ -1,4 +1,4 @@
-package com.shuo.krpc.server;
+package com.shuo.krpc.server.http;
 
 import com.shuo.krpc.RpcApplication;
 import com.shuo.krpc.model.RpcRequest;
@@ -23,7 +23,8 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest request) {
         // Assign serializer
-        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
+        final Serializer serializer =
+                SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         System.out.println("Received request: " + request.method() + " " + request.uri());
 
