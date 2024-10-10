@@ -8,8 +8,7 @@ import com.shuo.krpc.model.ServiceMetaInfo;
 import com.shuo.krpc.registry.LocalRegistry;
 import com.shuo.krpc.registry.Registry;
 import com.shuo.krpc.registry.RegistryFactory;
-import com.shuo.krpc.server.HttpServer;
-import com.shuo.krpc.server.VertxHttpServer;
+import com.shuo.krpc.server.tcp.VertxTcpServer;
 
 /**
  * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
@@ -38,8 +37,8 @@ public class ProviderExample {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        // Start the web server
-        HttpServer httpServer = new VertxHttpServer();
-        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+        // Start the Vertx server
+        VertxTcpServer vertxTcpServer = new VertxTcpServer();
+        vertxTcpServer.doStart(8080);
     }
 }
