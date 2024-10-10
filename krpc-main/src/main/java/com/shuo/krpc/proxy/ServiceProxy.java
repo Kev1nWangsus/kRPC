@@ -1,8 +1,6 @@
 package com.shuo.krpc.proxy;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import com.shuo.krpc.RpcApplication;
 import com.shuo.krpc.config.RpcConfig;
 import com.shuo.krpc.constant.RpcConstant;
@@ -11,33 +9,37 @@ import com.shuo.krpc.model.RpcResponse;
 import com.shuo.krpc.model.ServiceMetaInfo;
 import com.shuo.krpc.registry.Registry;
 import com.shuo.krpc.registry.RegistryFactory;
-import com.shuo.krpc.serializer.Serializer;
-import com.shuo.krpc.serializer.SerializerFactory;
+import com.shuo.krpc.server.tcp.VertxTcpClient;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.List;
 
 /**
  * Service Proxy
+ * <p>
+ * This class acts as a proxy for services, enabling dynamic invocation using JDK dynamic proxies.
+ * It facilitates sending requests to remote services and receiving responses, utilizing the
+ * specified serializer and making TCP connections to service providers discovered via the registry.
  *
  * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
  */
 public class ServiceProxy implements InvocationHandler {
 
     /**
-     * Invoke proxy
+     * Invokes the proxy method. It creates the request, serializes it, sends it to the
+     * appropriate services, and deserializes the response.
      *
-     * @return
-     * @throws Throwable
+     * @param proxy  the proxy instance that the method was invoked on
+     * @param method the method instance corresponding to the interface method invoked on the
+     *               proxy instance
+     * @param args   the arguments passed when the method was invoked
+     * @return the result of the remote service method invocation
+     * @throws Throwable if an exception occurs during method invocation
      */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        // assign serializer
-        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
-
-        // construct request
+        // Construct the request
         String serviceName = method.getDeclaringClass().getName();
         RpcRequest rpcRequest = RpcRequest.builder()
                 .serviceName(serviceName)
@@ -45,40 +47,22 @@ public class ServiceProxy implements InvocationHandler {
                 .parameterTypes(method.getParameterTypes())
                 .args(args)
                 .build();
-
+        // Retrieve the service provider address from the registry
         RpcConfig rpcConfig = RpcApplication.getRpcConfig();
         Registry registry =
                 RegistryFactory.getInstance(rpcConfig.getRegistryConfig().getRegistry());
-
         ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
         serviceMetaInfo.setServiceName(serviceName);
         serviceMetaInfo.setServiceVersion(RpcConstant.DEFAULT_SERVICE_VERSION);
-
-        List<ServiceMetaInfo> serviceMetaInfoList = registry.serviceDiscovery(serviceMetaInfo.getServiceKey());
+        List<ServiceMetaInfo> serviceMetaInfoList =
+                registry.serviceDiscovery(serviceMetaInfo.getServiceKey());
         if (CollUtil.isEmpty(serviceMetaInfoList)) {
-            throw new RuntimeException("No service address found!");
+            throw new RuntimeException("No service address available");
         }
-
         ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
 
-        try {
-            byte[] bodyBytes = serializer.serialize(rpcRequest);
-
-            // todo: add register center and service discovery
-            try (HttpResponse httpResponse = HttpRequest.post(selectedServiceMetaInfo.getServiceAddress())
-                    .body(bodyBytes)
-                    .execute()) {
-                byte[] result = httpResponse.bodyBytes();
-
-                // deserialize response
-                RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
-                return rpcResponse.getData();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        // Send TCP request
+        RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
+        return rpcResponse.getData();
     }
-
 }
