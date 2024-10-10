@@ -10,10 +10,15 @@ import com.shuo.krpc.model.ServiceMetaInfo;
 import com.shuo.krpc.registry.Registry;
 import com.shuo.krpc.registry.RegistryFactory;
 import com.shuo.krpc.server.tcp.VertxTcpClient;
+import com.shuo.krpc.loadbalancer.LoadBalancer;
+import com.shuo.krpc.loadbalancer.LoadBalancerFactory;
+
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service Proxy
@@ -59,7 +64,14 @@ public class ServiceProxy implements InvocationHandler {
         if (CollUtil.isEmpty(serviceMetaInfoList)) {
             throw new RuntimeException("No service address available");
         }
-        ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
+
+        // Select service node based on load balancer
+        LoadBalancer loadBalancer = LoadBalancerFactory.getInstance(rpcConfig.getLoadBalancer());
+        // Use method name as load balancer parameter
+        Map<String, Object> requestParams = new HashMap<>();
+        requestParams.put("methodName", rpcRequest.getMethodName());
+        ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams,
+                serviceMetaInfoList);
 
         // Send TCP request
         RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);

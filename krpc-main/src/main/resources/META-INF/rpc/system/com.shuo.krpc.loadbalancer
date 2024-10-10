@@ -1,0 +1,3 @@
+roundRobin=com.shuo.krpc.loadbalancer.RoundRobinLoadBalancer
+random=com.shuo.krpc.loadbalancer.RandomLoadBalancer
+consistentHashing=com.shuo.krpc.loadbalancer.ConsistentHashingLoadBalancer

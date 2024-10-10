@@ -1,5 +1,6 @@
 package com.shuo.krpc.config;
 
+import com.shuo.krpc.loadbalancer.LoadBalancerKeys;
 import com.shuo.krpc.serializer.SerializerKeys;
 import lombok.Data;
 
@@ -35,6 +36,11 @@ public class RpcConfig {
      * Serializer
      */
     private String serializer = SerializerKeys.JDK;
+
+    /**
+     * Load balancer
+     */
+    private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
 
     /**
      * Developer mock mode
