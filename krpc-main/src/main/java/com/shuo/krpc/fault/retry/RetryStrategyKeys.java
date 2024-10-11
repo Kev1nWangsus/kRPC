@@ -2,7 +2,7 @@ package com.shuo.krpc.fault.retry;
 
 /**
  * Retry Strategy Key Constants
-
+ *
  * @author <a href="https://github.com/Kev1nWangsus">shuo</a>
  */
 public interface RetryStrategyKeys {
