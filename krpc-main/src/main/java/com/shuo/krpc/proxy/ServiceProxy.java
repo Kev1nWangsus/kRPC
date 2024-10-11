@@ -6,6 +6,8 @@ import com.shuo.krpc.config.RpcConfig;
 import com.shuo.krpc.constant.RpcConstant;
 import com.shuo.krpc.fault.retry.RetryStrategy;
 import com.shuo.krpc.fault.retry.RetryStrategyFactory;
+import com.shuo.krpc.fault.tolerance.ToleranceStrategy;
+import com.shuo.krpc.fault.tolerance.ToleranceStrategyFactory;
 import com.shuo.krpc.model.RpcRequest;
 import com.shuo.krpc.model.RpcResponse;
 import com.shuo.krpc.model.ServiceMetaInfo;
@@ -78,10 +80,18 @@ public class ServiceProxy implements InvocationHandler {
                 serviceMetaInfoList);
 
         // Send TCP request
-        RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
-        RpcResponse rpcResponse = retryStrategy.doRetry(() ->
-                VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo)
-        );
+        RpcResponse rpcResponse;
+        try {
+            RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
+            rpcResponse = retryStrategy.doRetry(() ->
+                    VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo)
+            );
+        } catch (Exception e) {
+            // Tolerance strategy
+            ToleranceStrategy tolerantStrategy =
+                    ToleranceStrategyFactory.getInstance(rpcConfig.getTolerantStrategy());
+            rpcResponse = tolerantStrategy.doTolerance(null, e);
+        }
         return rpcResponse.getData();
     }
 }
