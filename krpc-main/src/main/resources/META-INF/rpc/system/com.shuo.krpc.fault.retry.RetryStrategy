@@ -1,0 +1,2 @@
+no=com.shuo.krpc.fault.retry.NoRetryStrategy
+fixedInterval=com.shuo.krpc.fault.retry.FixedIntervalRetryStrategy

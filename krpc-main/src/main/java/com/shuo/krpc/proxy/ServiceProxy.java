@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import com.shuo.krpc.RpcApplication;
 import com.shuo.krpc.config.RpcConfig;
 import com.shuo.krpc.constant.RpcConstant;
+import com.shuo.krpc.fault.retry.RetryStrategy;
+import com.shuo.krpc.fault.retry.RetryStrategyFactory;
 import com.shuo.krpc.model.RpcRequest;
 import com.shuo.krpc.model.RpcResponse;
 import com.shuo.krpc.model.ServiceMetaInfo;
@@ -52,10 +54,12 @@ public class ServiceProxy implements InvocationHandler {
                 .parameterTypes(method.getParameterTypes())
                 .args(args)
                 .build();
+
         // Retrieve the service provider address from the registry
         RpcConfig rpcConfig = RpcApplication.getRpcConfig();
         Registry registry =
                 RegistryFactory.getInstance(rpcConfig.getRegistryConfig().getRegistry());
+
         ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
         serviceMetaInfo.setServiceName(serviceName);
         serviceMetaInfo.setServiceVersion(RpcConstant.DEFAULT_SERVICE_VERSION);
@@ -74,7 +78,10 @@ public class ServiceProxy implements InvocationHandler {
                 serviceMetaInfoList);
 
         // Send TCP request
-        RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
+        RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
+        RpcResponse rpcResponse = retryStrategy.doRetry(() ->
+                VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo)
+        );
         return rpcResponse.getData();
     }
 }

@@ -1,5 +1,6 @@
 package com.shuo.krpc.config;
 
+import com.shuo.krpc.fault.retry.RetryStrategyKeys;
 import com.shuo.krpc.loadbalancer.LoadBalancerKeys;
 import com.shuo.krpc.serializer.SerializerKeys;
 import lombok.Data;
@@ -41,6 +42,11 @@ public class RpcConfig {
      * Load balancer
      */
     private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
+
+    /**
+     * Retry Strategy
+     */
+    private String retryStrategy = RetryStrategyKeys.NO;
 
     /**
      * Developer mock mode
