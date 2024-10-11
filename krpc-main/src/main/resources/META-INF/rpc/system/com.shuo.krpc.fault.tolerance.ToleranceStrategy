@@ -1,0 +1,4 @@
+failBack=com.shuo.krpc.fault.tolerance.FailBackToleranceStrategy
+failFast=com.shuo.krpc.fault.tolerance.FailFastToleranceStrategy
+failOver=com.shuo.krpc.fault.tolerance.FailOverToleranceStrategy
+failSafe=com.shuo.krpc.fault.tolerance.FailSafeToleranceStrategy
